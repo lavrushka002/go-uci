@@ -177,11 +177,28 @@ func (t *tree) GetSections(config string, secType string) ([]string, bool) {
 	return names, true
 }
 
+//func (t *tree) Get(config, section, option string) ([]string, bool) {
+//	t.Lock()
+//	defer t.Unlock()
+//
+//	if vals, ok := t.lookupValues(config, section, option); ok {
+//		return vals, true
+//	}
+//
+//	if err := t.loadConfig(config); err != nil {
+//		return nil, false
+//	}
+//	return t.lookupValues(config, section, option)
+//}
+
 func (t *tree) Get(config, section, option string) ([]string, bool) {
 	t.Lock()
 	defer t.Unlock()
 
 	if vals, ok := t.lookupValues(config, section, option); ok {
+		if len(vals) == 0 {
+			return nil, false
+		}
 		return vals, true
 	}
 

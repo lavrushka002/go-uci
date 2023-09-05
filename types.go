@@ -63,6 +63,9 @@ func (c *config) WriteTo(w io.Writer) (n int64, err error) {
 func (c *config) Get(name string) *section {
 	if strings.HasPrefix(name, "@") {
 		sec, _ := c.getUnnamed(name) // TODO: log error?
+		if sec != nil {
+			sec.Name = ""
+		}
 		return sec
 	}
 	return c.getNamed(name)
